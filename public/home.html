@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        label {
+            background-color: rgb(6, 99, 102);
+            border: solid 1px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            color: white;
+            padding: 0.5em;
+        }
+        input[type="file"] {
+            padding: 1.5em;
+            opacity: 0;
+        }
+        form {
+            margin-top: 2em;
+        }
+        img {
+            height: 20vh;
+        }
+        .preview {
+            border: solid 1px;
+            min-height: 100px;
+            width: max-content;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/files" enctype="multipart/form-data">
+        <label for="pics">Choose file to upload</label>
+        <input name="firstname" type="text" placeholder="Firstname" />
+        <input name="lastname" type="text" placeholder="Lastname" />
+        <input name="email" type="email" placeholder="Email" />
+        <input   type="file" id="pics" name="myfiles" multiple accept="image/*" />
+        <input type="submit" value="Upload" />
+    </form>
+    <div class="preview"></div>
+</body>
+<script type="text/javascript" >
+
+    const input = document.querySelector("input[type='file']")
+    const preview = document.querySelector(".preview")
+
+    function handleFiles(event) {
+
+        while(preview.firstChild) {
+            preview.removeChild(preview.firstChild)
+        }
+
+        const currFiles = event.target.files
+
+        if(currFiles.length === 0) {
+            const para = document.createElement('p')
+            para.textContent = "No files selected for upload"
+            preview.appendChild(para)
+        } else {
+            Array.from(currFiles).forEach(file => {
+                const image = document.createElement('img')
+                image.src = URL.createObjectURL(file)
+                preview.appendChild(image)
+            })
+        }
+
+    }
+</script>
+</html>
